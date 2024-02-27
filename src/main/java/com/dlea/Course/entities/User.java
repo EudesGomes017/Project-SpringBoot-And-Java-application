@@ -29,7 +29,7 @@ public class User implements Serializable {
 	private String password;
 
 	@JsonIgnore
-	 @OneToMany(mappedBy = "client") // esta mapeado pelo atributo client associado na classe Order
+	@OneToMany(mappedBy = "client") // esta mapeado pelo atributo client associado na classe Order
 	private List<Order> orders = new ArrayList<>();
 
 	public User() {
