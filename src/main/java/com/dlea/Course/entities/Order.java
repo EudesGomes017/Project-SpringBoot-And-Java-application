@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.dlea.Course.entities.enums.OrderStatus;
+import com.dlea.Course.entities.pk.OrdemItemPk;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
@@ -38,7 +39,8 @@ public class Order implements Serializable {
 	private Integer orderStatus; // informando para classe Order que vai passar um integer para OrderStatus no momento posteriormente
 	
 	
-	//para ter Order ter acesso no product pelo ordemItem temos que fazer esse relação
+	//para ter Order ter acesso no product pelo ordemItem temos que fazer esse relação 
+	//"id.order" > por que na minha classe OrderItem temos OrdemItemPk id, no OrdemItemPk temos private Order order; por isso o "id.Orde"
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
 
