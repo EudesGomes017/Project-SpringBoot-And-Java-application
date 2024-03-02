@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.dlea.Course.entities.Category;
 import com.dlea.Course.entities.Order;
 import com.dlea.Course.entities.OrderItem;
+import com.dlea.Course.entities.Payment;
 import com.dlea.Course.entities.Product;
 import com.dlea.Course.entities.User;
 import com.dlea.Course.entities.enums.OrderStatus;
@@ -84,6 +85,12 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice()); 
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+		//salvando objeto um para um
+		o1.setPayment(pay1); // associamos o pay1 com o pedido 1
+		orderRepository.save(o1);
+		
 
 	}
 

@@ -7,9 +7,9 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.dlea.Course.entities.enums.OrderStatus;
-import com.dlea.Course.entities.pk.OrdemItemPk;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,11 +37,18 @@ public class Order implements Serializable {
 	@JoinColumn(name = "client_id") // nome da chave estrangeira
 	private User client;
 
-	private Integer orderStatus; // informando para classe Order que vai passar um integer para OrderStatus no momento posteriormente
-	
-	
-	//para ter Order ter acesso no product pelo ordemItem temos que fazer esse relação 
-	//"id.order" > por que na minha classe OrderItem temos OrdemItemPk id, no OrdemItemPk temos private Order order; por isso o "id.Orde"
+	private Integer orderStatus; // informando para classe Order que vai passar um integer para OrderStatus no
+									// momento posteriormente
+
+	// classe independente de pagamento que é a Order
+	 // estamos mapeando as duas entidades para ter o mesmo id, por isso temos que por mappedBy = "order", cascade = CascadeType.ALL
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	private Payment payment;
+
+	// para ter Order ter acesso no product pelo ordemItem temos que fazer esse
+	// relação
+	// "id.order" > por que na minha classe OrderItem temos OrdemItemPk id, no
+	// OrdemItemPk temos private Order order; por isso o "id.Orde"
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
 
@@ -48,7 +56,7 @@ public class Order implements Serializable {
 
 	}
 
-	public Order(Long id, Instant moment,  OrderStatus orderStatus, User client) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 
 		this.id = id;
 		this.moment = moment;
@@ -73,12 +81,12 @@ public class Order implements Serializable {
 	}
 
 	public OrderStatus getOrderStatus() {
-		return OrderStatus.valueOf(orderStatus) ;
+		return OrderStatus.valueOf(orderStatus);
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
 		if (orderStatus != null) {
-		this.orderStatus = orderStatus.getCode();
+			this.orderStatus = orderStatus.getCode();
 		}
 	}
 
@@ -90,10 +98,18 @@ public class Order implements Serializable {
 		this.client = client;
 	}
 
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
 	public Set<OrderItem> getItems() {
 		return items;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

@@ -3,8 +3,6 @@ package com.dlea.Course.entities.pk;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.hibernate.annotations.ManyToAny;
-
 import com.dlea.Course.entities.Order;
 import com.dlea.Course.entities.Product;
 
