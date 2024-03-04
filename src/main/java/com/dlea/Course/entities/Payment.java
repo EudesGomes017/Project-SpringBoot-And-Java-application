@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -29,7 +30,8 @@ public class Payment implements Serializable {
 	// na classe dependente nesse exemplo: Payment pq ele precisa de pelo menos 1
 	// pedido, pq o pedido pode entrar no banco de dados sem pagamento para ele
 	@OneToOne
-	 @JsonIgnore
+	@JsonIgnore
+	@MapsId
 	private Order order;
 
 	public Payment() {
