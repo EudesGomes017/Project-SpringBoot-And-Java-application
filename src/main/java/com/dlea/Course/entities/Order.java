@@ -40,17 +40,18 @@ public class Order implements Serializable {
 	private Integer orderStatus; // informando para classe Order que vai passar um integer para OrderStatus no
 									// momento posteriormente
 
-	// classe independente de pagamento que é a Order
-	 // estamos mapeando as duas entidades para ter o mesmo id, por isso temos que por mappedBy = "order", cascade = CascadeType.ALL
-	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-	private Payment payment;
-
 	// para ter Order ter acesso no product pelo ordemItem temos que fazer esse
 	// relação
 	// "id.order" > por que na minha classe OrderItem temos OrdemItemPk id, no
 	// OrdemItemPk temos private Order order; por isso o "id.Orde"
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
+
+	// classe independente de pagamento que é a Order
+	// estamos mapeando as duas entidades para ter o mesmo id, por isso temos que
+	// por mappedBy = "order", cascade = CascadeType.ALL
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	private Payment payment;
 
 	public Order() {
 
@@ -98,16 +99,25 @@ public class Order implements Serializable {
 		this.client = client;
 	}
 
-	public Payment getPayment() {
-		return payment;
-	}
-
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
 
 	public Set<OrderItem> getItems() {
 		return items;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public Double getTotal() {
+		double sum = 0.0;
+		for (OrderItem x : items) {
+			sum += x.getSubTotal();
+		}
+
+		return sum;
 	}
 
 	@Override
