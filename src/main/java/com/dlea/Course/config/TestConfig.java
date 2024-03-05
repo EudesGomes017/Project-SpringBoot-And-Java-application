@@ -22,7 +22,7 @@ import com.dlea.Course.repositories.ProductRepository;
 import com.dlea.Course.repositories.UserRepository;
 
 @Configuration
-@Profile("test")
+@Profile("dev")
 public class TestConfig implements CommandLineRunner {
 
 	@Autowired
